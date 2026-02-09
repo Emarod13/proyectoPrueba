@@ -1,0 +1,37 @@
+name: .NET Core Build & Test
+
+# 1. ¿Cuándo se despierta el robot?
+# Cada vez que alguien hace push o un Pull Request a la rama "main" (o master)
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+# 2. El trabajo a realizar
+jobs:
+  build:
+    # El sistema operativo que usará el robot (Linux es más rápido y barato)
+    runs-on: ubuntu-latest
+
+    steps:
+    # Paso A: El robot descarga tu código del repositorio
+    - uses: actions/checkout@v4
+
+    # Paso B: El robot instala .NET 8 (o la versión que uses)
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x # ¡Asegúrate que coincida con tu proyecto!
+
+    # Paso C: Restaura las dependencias (baja los paquetes NuGet)
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # Paso D: Compila el código (verifica errores de sintaxis)
+    - name: Build
+      run: dotnet build --no-restore
+
+    # Paso E: ¡EL MOMENTO DE LA VERDAD! Ejecuta los tests
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
