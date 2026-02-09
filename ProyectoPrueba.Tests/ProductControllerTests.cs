@@ -49,7 +49,7 @@ namespace ProyectoPrueba.Tests
             // 4. CLAVE: Verificamos que el valor dentro sea ProductDTO
             var dtoDevuelto = Assert.IsType<ProductDTO>(okResult.Value);
 
-            Assert.Equal("Coca Cola", dtoDevuelto.Name);
+            Assert.Equal("Coca Cos", dtoDevuelto.Name);
         }
 
         [Fact]
